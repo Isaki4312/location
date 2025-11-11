@@ -1,2 +1,2 @@
 # location
-location test
+location test でーす
