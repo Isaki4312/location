@@ -1,0 +1,650 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+
+<!--jQuery 本体、UI、スタイルシート
+-->
+<script src="../js/jquery-3.2.1.min.js"></script>
+<link rel="stylesheet" href="../js/jquery-ui.css">
+<script src="../js/jquery-ui.min.js"></script>
+
+<!--スタイルシート
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+-->
+<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="../js/material.min.css">
+<!--マテリアルデザイン
+-->
+<script src="../js/material.min.js"></script>
+<script>
+
+
+
+</script>
+<title>桟木符号入力</title>    
+</head>
+<style>
+input[type="text"]{
+    font-size: 250%;
+}
+
+</style>
+
+<body class="mdl-demo mdl-color--grey-100 mdl-color-text--grey-700 mdl-base">
+<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+  <header class="mdl-layout__header mdl-layout__header--scroll mdl-color--primary">
+  	<div class="mdl-layout--large-screen-only mdl-layout__header-row">
+    		<h3>桟木符号入力</h3>
+  	</div>
+  </header>
+  <main class="mdl-layout__content">
+  <div class="mdl-grid">
+    <div class="mdl-cell mdl-cell--12-col">
+      <nav>
+      <a href="sangi3t.html" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">3tリフト</a>
+      <a href="sangi7t.html" class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent">7tリフト</a>
+      <a href="sangiSerch.php" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">実績</a>
+      <a href="sangiSyukei.php" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">集計</a>
+      </nav>
+    </div>
+  </div>
+    <div class="mdl-layout__tab-panel is-active" id="operate">
+      <section class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp ">
+        <div class="mdl-card mdl-cell mdl-cell--12-col">
+          <div class="mdl-card__supporting-text mdl-grid mdl-grid--no-spacing">
+            <h4 class="mdl-cell--3-col">回収機へ置く</h4>
+            <h4 id = "IPaddress" class="mdl-cell--2-col">号車</h4>
+            <h5 class="mdl-cell--1-col">2列</h5>
+            <h5 class="mdl-cell--1-col">長</h5>
+            <h5 class="mdl-cell--1-col">幅</h5>
+            <h5 class="mdl-cell--1-col">厚</h5>
+            <h4 class="mdl-cell--3-col">挿入機から出す</h4>
+            <div class="mdl-cell mdl-cell--2-col">
+              <button type="submit" id="entry1" class="mdl-button mdl-js-button mdl-color--yellow" name="entry">　立入　</button>
+            </div>
+            <div class="mdl-textfield mdl-js-textfield mdl-cell mdl-cell--3-col">
+                <input class="mdl-textfield__input" type="text" id="temae" name="wordback" value="">
+              <label class="mdl-textfield__label" for="temae">手前符号</label>
+            </div>
+            <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect mdl-cell--1-col" id="temaeRowLabel" for="temaeRow">
+              <input type="checkbox" id="temaeRow" class="mdl-checkbox__input">
+            </label>
+            <h5 id="temaeLength" class="mdl-cell--1-col">-</h5>
+            <h5 id="temaeWidth" class="mdl-cell--1-col">-</h5>
+            <h5 id="temaeThick" class="mdl-cell--1-col">-</h5>
+            <div class="mdl-cell mdl-cell--2-col">
+              <button type="submit" id="entry2" class="mdl-button mdl-js-button mdl-color--yellow" name="entry">　立入　</button>
+            </div>
+            <div class="mdl-cell mdl-cell--1-col">
+              <h5 id="outputPile">山数</h5>
+            </div>
+            <div class="mdl-cell mdl-cell--2-col">
+              <button type="submit" id="reset1" class="mdl-button mdl-js-button mdl-color--blue" name="reset">リセット</button>
+            </div>
+            <div class="mdl-textfield mdl-js-textfield mdl-cell mdl-cell--3-col">
+              <input class="mdl-textfield__input"  type="text" style="ime-mode: disabled;" pattern="^[0-9A-Za-z]+$" id="oku" name="wordfront" value="" minlength="4" maxlength="4">
+              <label class="mdl-textfield__label" for="oku">奥符号</label>
+            </div>
+            <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect mdl-cell--1-col" id="okuRowLabel" for="okuRow">
+              <input type="checkbox" id="okuRow" class="mdl-checkbox__input">
+            </label>
+            <h5 id="okuLength" class="mdl-cell--1-col">-</h5>
+            <h5 id="okuWidth" class="mdl-cell--1-col">-</h5>
+            <h5 id="okuThick" class="mdl-cell--1-col">-</h5>
+            <div class="mdl-cell mdl-cell--2-col">
+              <button type="submit" id="reset2" class="mdl-button mdl-js-button mdl-color--blue" name="reset">リセット</button>
+            </div>
+            <div class="mdl-cell mdl-cell--1-col">
+              <h5 id="12st">12st</h5>
+            </div>
+            <div class="mdl-cell mdl-cell--2-col">
+              <button type="submit" id="start1" class="mdl-button mdl-js-button mdl-color--green" name="start">再起動　</button>
+            </div>
+            <div class="mdl-cell mdl-cell--7-col">
+<!--               <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="pile1">
+                <input type="radio" id="pile1" class="mdl-radio__button" name="options" value="1列">
+                <span class="mdl-radio__label">1山</span>
+              </label>
+              <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="pile2">
+                <input type="radio" id="pile2" class="mdl-radio__button" name="options" value="2列" checked="true">
+                <span class="mdl-radio__label">2山</span>
+              </label> -->
+            </div>
+            <div class="mdl-cell mdl-cell--2-col">
+              <button type="submit" id="start2" class="mdl-button mdl-js-button mdl-color--green" name="start">再起動　</button>
+            </div>
+            <div class="mdl-cell mdl-cell--1-col">
+              <h5 id="13st">13st</h5>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+  <div id="table">
+    <!-- Expandable Textfield -->
+      <div id="result1"></div>
+      <div id="result2"></div>
+    <form action="" method="post" class="form1" disabled>
+
+      <div class="mdl-textfield mdl-js-textfield">
+      	<input class="mdl-textfield__input" type="text" id="sample1" name="word" value="">
+      	<label class="mdl-textfield__label" for="sample1">手前</label>
+      </div>
+      <button type="submit" id = "formd" class="mdl-button mdl-js-button mdl-color--purple-200">書込</button>
+    </form>
+
+  </div>
+  <div>挿入機進行 <span id="stepInsert">稼働</span></div>
+  <div>回収機進行 <span id="stepOmit">稼働</span></div>
+  <div>メッセージ <span id="message">メッセージ</span></div>
+  <div>充電中 <span id="battery"></span></div>
+  <div>加速度<br>
+    <span id="x">0</span><br>
+    <span id="y">0</span><br>
+    <span id="z">0</span><br>
+    <span id="1x">0</span><br>
+    <span id="1y">0</span><br>
+    <span id="1z">0</span><br>
+  </div>
+  </main>
+</div>
+
+</body>
+<script>
+
+var start = new Date();//後で使う時間。
+
+function time(){
+  var data = {
+    method : "readOutput"
+  };
+  $.ajax({
+    type: "POST",
+    url: "sangiInsert.php",
+    data: data,
+    //Ajax通信が成功した場合に呼び出されるメソッド
+    success: function(data, dataType){
+      //出力する部分
+      var step = JSON.parse(data);
+      //console.log(step[0]);
+      document.getElementById('stepInsert').innerHTML = String(step[0]);
+      document.getElementById('12st').innerHTML ='12st　'+ String(step[1]);
+      document.getElementById('13st').innerHTML ='13st　'+ String(step[2]);
+      document.getElementById('outputPile').innerHTML = String(step[3])+'山';
+//0 停止
+//1 待ち(コンベア材あり)
+//3 立ち入り可能
+//4 起動待ち
+//5 製品なし
+//9 異常
+      if(step[0]===0 || step[0]==9){
+        document.getElementById("entry2").style.display = 'none';
+        document.getElementById("start2").style.display = 'none';
+        document.getElementById("reset2").style.display = 'none';
+      }else if(step[0]==1){
+        document.getElementById("entry2").style.display = 'block';
+        document.getElementById("start2").style.display = 'none';
+        document.getElementById("reset2").style.display = 'none';
+      }else if(step[0]==3){
+        document.getElementById("entry2").style.display = 'none';
+        document.getElementById("reset2").style.display = 'block';
+        document.getElementById("start2").style.display = 'none';
+      }else if(step[0]==4){
+        document.getElementById("entry2").style.display = 'none';
+        document.getElementById("reset2").style.display = 'none';
+        document.getElementById("start2").style.display = 'block';
+      }
+    },
+    //Ajax通信が失敗した場合に呼び出されるメソッド
+    error: function(XMLHttpRequest, textStatus, errorThrown){
+      // alert('Error : ' + errorThrown);
+      // $("#XMLHttpRequest").html("XMLHttpRequest : " + XMLHttpRequest.status);
+      // $("#textStatus").html("textStatus : " + textStatus);
+      // $("#errorThrown").html("errorThrown : " + errorThrown);
+      document.getElementById("message").innerHTML = errorThrown + '挿入機通信失敗';
+    }
+  });
+
+  var data = {
+    method : "read"
+  };
+  $.ajax({
+    type: "POST",
+    url: "sangiOmit.php",
+    data: data,
+    //Ajax通信が成功した場合に呼び出されるメソッド
+    success: function(data, dataType){
+      
+      //出力する部分
+      var step = JSON.parse(data);
+      //console.log(step);
+      document.getElementById('stepOmit').innerHTML = step;
+//0 停止
+//1 待ち(コンベア空)
+//2 コンベア巾替え中
+//3 立ち入り可能
+//4 起動待ち
+//5 製品あり
+//9 異常
+      if(step===0 || step==9){
+        document.getElementById("entry1").style.display = 'none';
+        document.getElementById("reset1").style.display = 'none';
+        document.getElementById("start1").style.display = 'none';
+      }else if(step==1){
+        document.getElementById("entry1").style.display = 'block';
+        document.getElementById("reset1").style.display = 'none';
+        document.getElementById("start1").style.display = 'none';
+      }else if(step==2){
+        document.getElementById("entry1").style.display = 'none';
+      }else if(step==3){
+        document.getElementById("entry1").style.display = 'none';
+        document.getElementById("reset1").style.display = 'block';
+        document.getElementById("start1").style.display = 'none';
+      }else if(step==4){
+        document.getElementById("entry1").style.display = 'none';
+        document.getElementById("reset1").style.display = 'none';
+        document.getElementById("start1").style.display = 'block';
+      }
+    },
+    //Ajax通信が失敗した場合に呼び出されるメソッド
+    error: function(XMLHttpRequest, textStatus, errorThrown){
+      // alert('Error : ' + errorThrown);
+      // $("#XMLHttpRequest").html("XMLHttpRequest : " + XMLHttpRequest.status);
+      // $("#textStatus").html("textStatus : " + textStatus);
+      // $("#errorThrown").html("errorThrown : " + errorThrown);
+      document.getElementById("message").innerHTML = errorThrown + '通信失敗';
+    }
+  });
+ var noMove = Math.abs(document.getElementById('1x').innerHTML - document.getElementById('x').innerHTML) <2.0 && Math.abs(document.getElementById('1y').innerHTML - document.getElementById('y').innerHTML) <2.0 && Math.abs(document.getElementById('1z').innerHTML - document.getElementById('z').innerHTML) <2.0;
+  //var noMove = document.getElementById('1x').innerHTML == document.getElementById('x').innerHTML && document.getElementById('1y').innerHTML == document.getElementById('y').innerHTML && document.getElementById('1z').innerHTML == document.getElementById('z').innerHTML;
+  document.getElementById('1x').innerHTML = document.getElementById('x').innerHTML;
+  document.getElementById('1y').innerHTML = document.getElementById('y').innerHTML;
+  document.getElementById('1z').innerHTML = document.getElementById('z').innerHTML;
+  document.getElementById("entry1").disabled = !noMove;
+  document.getElementById("entry2").disabled = !noMove;
+  document.getElementById("reset1").disabled = !noMove;
+  document.getElementById("reset2").disabled = !noMove;
+  document.getElementById("start1").disabled = !noMove;
+  document.getElementById("start2").disabled = !noMove;
+  document.getElementById("temae").disabled = !noMove;
+  document.getElementById("oku").disabled = !noMove;
+}
+
+entry1.addEventListener("click",function(){
+  if(document.getElementById('stepOmit').innerHTML!=1 && document.getElementById('stepOmit').innerHTML!=4){
+      return;
+  }
+  if(!isNaN(document.getElementById('temaeLength').innerHTML)){
+    var data = {
+      method : "entry",
+      oku : document.getElementById('oku').value,
+      okuRow : (document.getElementById('okuRow').checked) ? 2 : 1,
+      temae : document.getElementById('temae').value,
+      temaeRow : (document.getElementById('temaeRow').checked) ? 2 : 1,
+    };
+    console.log(data);
+    omitAjax(data);
+  }else{
+    alert("符号が入ってないよ");
+  }
+});
+
+reset1.addEventListener("click",function(){
+  if(document.getElementById('stepOmit').innerHTML!=3){
+      return;
+  }
+    var data = {
+      method : "reset",
+    };
+    omitAjax(data);
+});
+
+start1.addEventListener("click",function(){
+  if(document.getElementById('stepOmit').innerHTML!=4){
+      return;
+  }
+    var data = {
+      method : "start",
+    };
+    omitAjax(data);
+});
+
+function omitAjax(data){
+  console.log(data);
+  $.ajax({
+    type: "POST",
+    url: "sangiOmit.php",
+    data: data,
+    //Ajax通信が成功した場合に呼び出されるメソッド
+    success: function(data, dataType){
+
+    },
+    //Ajax通信が失敗した場合に呼び出されるメソッド
+    error: function(XMLHttpRequest, textStatus, errorThrown){
+      document.getElementById("message").innerHTML = errorThrown + '通信失敗';
+    }
+  });
+}
+
+entry2.addEventListener("click",function(){
+  if(document.getElementById('stepInsert').innerHTML!=1 && document.getElementById('stepInsert').innerHTML!=4){
+      return;
+  }
+  var data = {
+    method : "entryOutput",
+  };
+  insertAjax(data);
+});
+
+reset2.addEventListener("click",function(){
+  if(document.getElementById('stepInsert').innerHTML!=3){
+      return;
+  }
+    var data = {
+      method : "resetOutput",
+    };
+    insertAjax(data);
+});
+
+start2.addEventListener("click",function(){
+  if(document.getElementById('stepInsert').innerHTML!=4){
+      return;
+  }
+    var data = {
+      method : "startOutput",
+    };
+    insertAjax(data);
+});
+
+function insertAjax(data){
+  $.ajax({
+    type: "POST",
+    url: "sangiInsert.php",
+    data: data,
+    //Ajax通信が成功した場合に呼び出されるメソッド
+    success: function(data, dataType){
+    },
+    //Ajax通信が失敗した場合に呼び出されるメソッド
+    error: function(XMLHttpRequest, textStatus, errorThrown){
+      document.getElementById("message").innerHTML = errorThrown + '通信失敗';
+    }
+  });
+}
+
+
+//起動時に加速度センサーが働いていない場合があるので5秒立った時点で0なら再読み込み。
+window.setTimeout(function(){
+  if(document.getElementById('x').innerHTML == 0 && document.getElementById('y').innerHTML == 0){
+    //location.reload();   
+  }
+}, 5000);
+
+//加速度センサー読み込み。
+window.addEventListener('devicemotion', function(e) {
+  var x   = Math.round(e.accelerationIncludingGravity.x*10)/10,
+      y   = Math.round(e.accelerationIncludingGravity.y*10)/10,
+      z   = Math.round(e.accelerationIncludingGravity.z*10)/10;
+
+  document.getElementById('x').innerHTML = x;
+  document.getElementById('y').innerHTML = y;
+  document.getElementById('z').innerHTML = z;
+}, false);
+
+
+function batterymessage(x){
+    document.getElementById('battery').innerHTML = x;
+}
+
+  //1秒ごとにチェック
+   setInterval('time()',1000);
+
+function zenkakuTohankaku(str){
+  str =  str.replace(/[\u3041-\u30F6]/g,function(match){
+    const kanaMap = {
+      'ア':'ｱ','イ':'ｲ','ウ':'ｳ','エ':'ｴ','カ':'ｶ','セ':'ｾ','ネ':'ﾈ','か':'ｶ','せ':'ｾ','ね':'ﾈ'
+    };
+    return kanaMap[match] || match
+  })
+  str = str.replace(/[Ａ-Ｚａ-ｚ０-９]/g,function(match){
+    return String.fromCharCode(match.charCodeAt(0) - 0xFEE0);
+  })
+  return str;
+}
+
+var hugou = /^[A-Za-z0-9ｦ-ﾟァ-ヶ０-９あ-ん]{4}$/g;
+// \/は正規表現の開始と終了を示す。
+// gオプションはグローバルで文字列全体がマッチするか判定。(ない場合はマッチしたら終了。
+// 符号は4桁英数
+
+document.getElementById("oku").addEventListener("change",function(){
+  document.getElementById('oku').value = zenkakuTohankaku($('#oku').val().toUpperCase());
+  document.getElementById('temae').value = $('#oku').val().toUpperCase();
+  if($('#oku').val().match(hugou)){
+    //alert("match");
+    var data = {
+      method : "hugou",
+      hugou : $('#oku').val()
+    };
+    $.ajax({
+      type: "POST",
+      url: "master.php",
+      data: data,
+      //Ajax通信が成功した場合に呼び出されるメソッド
+      success: function(data, dataType){
+        //console.log(data);
+        //出力する部分
+        //var size = JSON.parse(data);
+        var size = data.split(',');
+        document.getElementById('okuLength').innerHTML=size[0];
+        document.getElementById('okuWidth').innerHTML=size[1];
+        document.getElementById('okuThick').innerHTML=size[2];
+        document.getElementById('temaeLength').innerHTML=size[0];
+        document.getElementById('temaeWidth').innerHTML=size[1];
+        document.getElementById('temaeThick').innerHTML=size[2];
+        //mdlではLabelをuncheckする
+        if(size[1]<310){
+          document.getElementById('okuRowLabel').MaterialCheckbox.check();
+          document.getElementById('temaeRowLabel').MaterialCheckbox.check();
+        }else{
+          document.getElementById('okuRowLabel').MaterialCheckbox.uncheck();
+          document.getElementById('temaeRowLabel').MaterialCheckbox.uncheck();
+        }
+      },
+      //Ajax通信が失敗した場合に呼び出されるメソッド
+      error: function(XMLHttpRequest, textStatus, errorThrown){
+        // alert('Error : ' + errorThrown);
+        // $("#XMLHttpRequest").html("XMLHttpRequest : " + XMLHttpRequest.status);
+        // $("#textStatus").html("textStatus : " + textStatus);
+        // $("#errorThrown").html("errorThrown : " + errorThrown);
+        document.getElementById("message").innerHTML = errorThrown + '通信失敗';
+        document.getElementById('okuLength').innerHTML="-";
+        document.getElementById('okuWidth').innerHTML="-";
+        document.getElementById('okuThick').innerHTML="-";
+      }
+    });
+  }else{
+    document.getElementById('okuLength').innerHTML="-";
+    document.getElementById('okuWidth').innerHTML="-";
+    document.getElementById('okuThick').innerHTML="-";
+  }
+});
+
+document.getElementById("temae").addEventListener("change",function(){
+  document.getElementById('temae').value = zenkakuTohankaku($('#temae').val().toUpperCase());
+  if($('#temae').val().match(hugou)){
+    //alert("match");
+    var data = {
+      method : "hugou",
+      hugou : $('#temae').val()
+    };
+    $.ajax({
+      type: "POST",
+      url: "master.php",
+      data: data,
+      //Ajax通信が成功した場合に呼び出されるメソッド
+      success: function(data, dataType){
+        console.log(data);
+        //出力する部分
+        var size = data.split(',');
+        document.getElementById('temaeLength').innerHTML=size[0];
+        document.getElementById('temaeWidth').innerHTML=size[1];
+        document.getElementById('temaeThick').innerHTML=size[2];
+        if(size[1]<310){
+          document.getElementById('temaeRowLabel').MaterialCheckbox.check();
+        }else{
+          document.getElementById('temaeRowLabel').MaterialCheckbox.uncheck();
+        }
+      },
+      //Ajax通信が失敗した場合に呼び出されるメソッド
+      error: function(XMLHttpRequest, textStatus, errorThrown){
+        // alert('Error : ' + errorThrown);
+        // $("#XMLHttpRequest").html("XMLHttpRequest : " + XMLHttpRequest.status);
+        // $("#textStatus").html("textStatus : " + textStatus);
+        // $("#errorThrown").html("errorThrown : " + errorThrown);
+        document.getElementById("message").innerHTML = errorThrown + '通信失敗';
+        document.getElementById('temaeLength').innerHTML="-";
+        document.getElementById('temaeWidth').innerHTML="-";
+        document.getElementById('temaeThick').innerHTML="-";
+      }
+    });
+  }else{
+    document.getElementById('temaeLength').innerHTML="-";
+    document.getElementById('temaeWidth').innerHTML="-";
+    document.getElementById('temaeThick').innerHTML="-";
+  }
+});
+  
+
+var options = {
+    // 高精度な位置情報を取得するか(デフォルトはfalse)
+    enableHightAccuracy: true,
+    // 位置情報をキャッシュする時間(ミリ秒。デフォルトは0)
+    maximumAge: 0,
+    // ミリ秒。タイムアウトするとerrorCallback()
+    timeout: 10000
+}
+function successCallback(position){
+    // メッセージを表示
+    document.getElementById("message").innerHTML += "API成功<br />";
+
+    // 引数positionからcoordinates(緯度・経度など)を取り出す
+    // ただし、“★必ず取得できる”以外はnullの可能性もある
+    
+    // 緯度(-180～180度) ★必ず取得できる経度0.00001が1.1m
+    var latitude         = position.coords.latitude;
+    
+    // 経度(-90～90度) ★必ず取得できる
+    var longitude        = position.coords.longitude;
+    
+    // 高度(m)
+    var altitude         = position.coords.altitude;
+    
+    // 緯度・経度の誤差(m) ★必ず取得できる
+    var accuracy         = position.coords.accuracy;
+    
+    // 高度の誤差(m)
+    var altitudeAccuracy = position.coords.altitudeAccuracy;
+    
+    // 方角(0～360度)
+    var heading          = position.coords.heading;
+    
+    // 速度(m/秒)
+    var speed            = position.coords.speed;
+    
+    // 引数positionからtimestamp(位置情報を取得した時刻のミリ秒)を取り出す ★必ず取得できる
+    var timestamp = position.timestamp;
+    
+    // timestampをDate型に変換
+    var successDate = new Date(timestamp);
+
+    // メッセージを表示
+    document.getElementById("message").innerHTML += "取得日時：" + successDate.toLocaleString() + "<br />";
+    document.getElementById("message").innerHTML += "緯度：" + latitude + " 度<br />";
+    document.getElementById("message").innerHTML += "経度：" + longitude + " 度<br />";
+    document.getElementById("message").innerHTML += "高度：" + altitude + " m<br />";
+    document.getElementById("message").innerHTML += "緯度・経度の誤差：" + accuracy + " m<br />";
+    document.getElementById("message").innerHTML += "高度の誤差：" + altitudeAccuracy + " m<br />";
+    document.getElementById("message").innerHTML += "方角：" + heading + " 度<br />";
+    document.getElementById("message").innerHTML += "速度：" + speed + " m/秒<br />";
+    
+    // 緯度・経度を地図上で確認するためにGoogleMapへのリンクを作成
+    document.getElementById("message").innerHTML += "<a target='_blank' href='https://maps.google.co.jp/maps?q=" 
+        + latitude + "," + longitude + "+%28%E7%8F%BE%E5%9C%A8%E4%BD%8D%E7%BD%AE%29&iwloc=A'>緯度・経度をGoogleMapで確認</a><br /><br />";
+}
+
+// 引数として、code(コード)とmessage(メッセージ)の2つを持ったpositionErrorが渡される
+function errorCallback(positionError){
+    document.getElementById("message").innerHTML += "API失敗<br />";
+    // 引数positionErrorの中身2つを取り出す
+    // コード(1～3のいずれかの値)
+    var code = positionError.code;
+    // メッセージ(開発者向けデバッグ用メッセージ)
+    var message = positionError.message;
+    // コードに応じたメッセージを表示
+    switch (code) {
+        case positionError.PERMISSION_DENIED: // codeが1
+            document.getElementById("message").innerHTML += "GeolocationAPIのアクセス許可がありません<br />";
+            break;
+        case positionError.POSITION_UNAVAILABLE: // codeが2
+            document.getElementById("message").innerHTML += "現在の位置情報を特定できませんでした<br />";
+            break;       
+        case positionError.TIMEOUT: // codeが3
+            document.getElementById("message").innerHTML += "指定されたタイムアウト時間内に現在の位置情報を特定できませんでした<br />";
+            break;
+    }
+    document.getElementById("message").innerHTML += message + "<br /><br />";
+} 
+
+
+function fetchLocation(){
+    document.getElementById("message").innerHTML = "";
+    // Geolocation APIに対応しているか
+    if (navigator.geolocation) {
+        // 位置情報取得成功時にsuccessCallback()、そして取得失敗時にerrorCallback()がコールされる
+        // optionsはgetCurrentPosition()に渡す設定値
+        navigator.geolocation.getCurrentPosition(successCallback, errorCallback , options);
+        // ↑は非同期処理なので下の行は処理中に表示される
+        document.getElementById("message").innerHTML += "API実行<br />";
+    } else {
+        alert("Geolocation not supported");
+    }
+}
+
+fetchLocation();
+
+function fetchIP(){
+    document.getElementById("message").innerHTML = "";
+    $.ajax({
+      type: "POST",
+      url: "fetchIP.php",
+      data: "",
+      //Ajax通信が成功した場合に呼び出されるメソッド
+      success: function(data, dataType){
+        console.log(data);
+        //出力する部分
+        //var size = data.split(',');
+        document.getElementById('IPaddress').innerHTML=data + '号車';
+      },
+      //Ajax通信が失敗した場合に呼び出されるメソッド
+      error: function(XMLHttpRequest, textStatus, errorThrown){
+        // alert('Error : ' + errorThrown);
+        // $("#XMLHttpRequest").html("XMLHttpRequest : " + XMLHttpRequest.status);
+        // $("#textStatus").html("textStatus : " + textStatus);
+        // $("#errorThrown").html("errorThrown : " + errorThrown);
+        document.getElementById('IPaddress').innerHTML='通信失敗';
+      }
+    });
+}
+
+fetchIP();
+
+function hugouMaster(hugou){
+}
+
+
+</script>
+</html>
